@@ -5,7 +5,7 @@
 
 # IndiCaps
 
-**IndiCaps v1.0.0** — a Caps Lock indicator for Windows.
+**IndiCaps** — a Caps Lock indicator for Windows.
 
 Every time you press Caps Lock, a small elegant notification appears in the bottom-right corner of the screen, then fades away. The app runs quietly in the background from the notification area — no window, no interference.
 
