@@ -1,0 +1,11 @@
+bin/
+obj/
+dist/
+.vs/
+*.user
+*.suo
+.vscode/
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.log
