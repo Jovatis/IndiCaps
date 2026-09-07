@@ -1,4 +1,4 @@
-<img width="346" height="319" alt="IndiCapsLogo" src="https://github.com/user-attachments/assets/072d4b5a-c9ce-4adc-94b9-24953568442c" />
+<img width="128" height="128" alt="IndiCapsLogo" src="https://github.com/user-attachments/assets/072d4b5a-c9ce-4adc-94b9-24953568442c" />
 
 
 
