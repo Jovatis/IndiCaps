@@ -9,7 +9,7 @@ public sealed class PanelForm : Form
     private readonly Action _quit;
 
     private const int W = 330;
-    private const int H = 412;
+    private const int H = 452;
     private static readonly Rectangle CloseRect = new(W - 46, 24, 28, 28);
 
     private readonly GLabel _subtitle;
@@ -46,12 +46,13 @@ public sealed class PanelForm : Form
         _enBtn.Click += (_, _) => SetLanguage("en");
         _frBtn.Click += (_, _) => SetLanguage("fr");
 
-        _quitBtn = new RoundedButton("") { Location = new Point(24, 358), Size = new Size(W - 48, 40), Danger = true };
+        _quitBtn = new RoundedButton("") { Location = new Point(24, 398), Size = new Size(W - 48, 40), Danger = true };
         _quitBtn.Click += (_, _) => _quit();
 
         Controls.AddRange(new Control[] { _subtitle, _langLabel, _enBtn, _frBtn, _quitBtn });
 
         AddRow("opt_indicator", () => _settings.IndicatorEnabled, v => _settings.IndicatorEnabled = v);
+        AddRow("opt_indicator_num", () => _settings.NumIndicatorEnabled, v => _settings.NumIndicatorEnabled = v);
         AddRow("opt_sound", () => _settings.SoundEnabled, v => _settings.SoundEnabled = v);
         AddRow("opt_animation", () => _settings.AnimationEnabled, v => _settings.AnimationEnabled = v);
         AddRow("opt_startup", () => _settings.StartWithWindows, v => _settings.StartWithWindows = v);

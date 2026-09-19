@@ -20,8 +20,10 @@ internal sealed class CapsApp : IDisposable
 
     private IntPtr _hookId;
     private NativeMethods.LowLevelKeyboardProc _hookProc = null!;
-    private bool _keyDown;
+    private bool _capsDown;
+    private bool _numDown;
     private bool _capsOn;
+    private bool _numOn;
 
     public CapsApp(Settings settings, bool debug)
     {
@@ -44,7 +46,8 @@ internal sealed class CapsApp : IDisposable
         BuildTray();
 
         _capsOn = ReadCapsLock();
-        Log($"start capsOn={_capsOn} keystate={GetKeyStateBit()} font={FontService.LoadedFamilyName}");
+        _numOn = ReadNumLock();
+        Log($"start capsOn={_capsOn} numOn={_numOn} keystate={GetKeyStateBit()} font={FontService.LoadedFamilyName}");
         InstallHook();
     }
 
@@ -52,6 +55,9 @@ internal sealed class CapsApp : IDisposable
 
     private static bool ReadCapsLock()
         => (NativeMethods.GetKeyState((int)NativeMethods.VK_CAPITAL) & 0x0001) != 0;
+
+    private static bool ReadNumLock()
+        => (NativeMethods.GetKeyState((int)NativeMethods.VK_NUMLOCK) & 0x0001) != 0;
 
     private void InstallHook()
     {
@@ -72,21 +78,33 @@ internal sealed class CapsApp : IDisposable
             var data = System.Runtime.InteropServices.Marshal.PtrToStructure<NativeMethods.KBDLLHOOKSTRUCT>(lParam);
             int msg = wParam.ToInt32();
 
-            if (data.vkCode == NativeMethods.VK_CAPITAL)
+            if (data.vkCode == NativeMethods.VK_CAPITAL || data.vkCode == NativeMethods.VK_NUMLOCK)
             {
                 bool down = msg == NativeMethods.WM_KEYDOWN || msg == NativeMethods.WM_SYSKEYDOWN;
                 bool up = msg == NativeMethods.WM_KEYUP || msg == NativeMethods.WM_SYSKEYUP;
+                bool isCaps = data.vkCode == NativeMethods.VK_CAPITAL;
 
-                if (down && !_keyDown)
+                if (down)
                 {
-                    _keyDown = true;
-                    _capsOn = !_capsOn;
-                    Log($"press capsOn={_capsOn} keystate={GetKeyStateBit()}");
-                    OnCapsChange();
+                    if (isCaps && !_capsDown)
+                    {
+                        _capsDown = true;
+                        _capsOn = !_capsOn;
+                        Log($"press capsOn={_capsOn} numOn={_numOn}");
+                        OnToggle(isCaps);
+                    }
+                    else if (!isCaps && !_numDown)
+                    {
+                        _numDown = true;
+                        _numOn = !_numOn;
+                        Log($"press numOn={_numOn} capsOn={_capsOn}");
+                        OnToggle(isCaps);
+                    }
                 }
                 else if (up)
                 {
-                    _keyDown = false;
+                    if (isCaps) _capsDown = false;
+                    else _numDown = false;
                 }
             }
         }
@@ -94,16 +112,21 @@ internal sealed class CapsApp : IDisposable
         return NativeMethods.CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-    private void OnCapsChange()
+    private void OnToggle(bool isCaps)
     {
+        bool on = isCaps ? _capsOn : _numOn;
         if (_settings.SoundEnabled)
         {
-            try { (_capsOn ? _onSound : _offSound)?.Play(); } catch { }
+            try { (on ? _onSound : _offSound)?.Play(); } catch { }
         }
-        if (!_settings.IndicatorEnabled) return;
+        if (isCaps && !_settings.IndicatorEnabled) return;
+        if (!isCaps && !_settings.NumIndicatorEnabled) return;
 
-        string text = Lang.Get(_settings.Language, _capsOn ? "caps_on" : "caps_off");
-        _notifier.Display(text, _capsOn, _settings.AnimationEnabled);
+        string key = isCaps
+            ? (on ? "caps_on" : "caps_off")
+            : (on ? "num_on" : "num_off");
+        string text = Lang.Get(_settings.Language, key);
+        _notifier.Display(text, on, _settings.AnimationEnabled);
     }
 
     private void Log(string message)
@@ -148,7 +171,7 @@ internal sealed class CapsApp : IDisposable
         _tray = new NotifyIcon
         {
             Icon = _trayIcon,
-            Text = "IndiCaps 1.0.0 · by Jovatis",
+            Text = "IndiCaps 1.1.0 · by Jovatis",
             Visible = true,
             ContextMenuStrip = _menu
         };

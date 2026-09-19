@@ -6,6 +6,7 @@ namespace IndiCaps;
 public sealed class Settings
 {
     public bool IndicatorEnabled { get; set; } = true;
+    public bool NumIndicatorEnabled { get; set; } = true;
     public string Language { get; set; } = "fr";
     public bool SoundEnabled { get; set; } = true;
     public bool AnimationEnabled { get; set; } = true;

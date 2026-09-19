@@ -5,6 +5,7 @@ namespace IndiCaps;
 internal static class NativeMethods
 {
     public const uint VK_CAPITAL = 0x14;
+    public const uint VK_NUMLOCK = 0x90;
     public const int WH_KEYBOARD_LL = 13;
     public const int WM_KEYDOWN = 0x0100;
     public const int WM_KEYUP = 0x0101;

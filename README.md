@@ -1,11 +1,6 @@
-<img width="64" height="64" alt="IndiCapsLogo" src="https://github.com/user-attachments/assets/072d4b5a-c9ce-4adc-94b9-24953568442c" />
-
-
-
-
 # IndiCaps
 
-**IndiCaps** — a Caps Lock indicator for Windows.
+**IndiCaps v1.1.0** — a Caps Lock indicator for Windows.
 
 Every time you press Caps Lock, a small elegant notification appears in the bottom-right corner of the screen, then fades away. The app runs quietly in the background from the notification area — no window, no interference.
 
@@ -15,12 +10,13 @@ Designed and crafted by **Jovatis**.
 
 ## Features
 
-- Overlay notification on every Caps Lock press (PNG-based design)
+- Overlay notification on every Caps Lock and Num Lock press (PNG-based design)
 - Always on top, but **click-through**: it never steals a click or the focus
 - Optional toggle sound
 - Settings panel:
   - Language: English / French
-  - Indicator on/off
+  - Caps indicator on/off
+  - Num Lock indicator on/off
   - Sound on/off
   - Animation (fade) on/off
   - Launch at Windows startup
@@ -32,10 +28,10 @@ Designed and crafted by **Jovatis**.
 
 ## Installation (plug & play)
 
-Download the `IndiCaps-1.0.0.zip` file from the **GitHub Releases** page. The zip contains:
+Download the `IndiCaps-1.1.0.zip` file from the **GitHub Releases** page. The zip contains:
 
 ```
-IndiCaps-1.0.0/
+IndiCaps-1.1.0/
 ├── IndiCaps.exe
 └── assets/
     ├── bgon.png
@@ -79,7 +75,7 @@ Build output (`bin/`, `obj/`, `dist/`) is **excluded from git** because it is re
 
 ## Credits
 
-**IndiCaps** — designed and crafted by **Jovatis** · v1.0.0
+**IndiCaps** — designed and crafted by **Jovatis** · v1.1.0
 
 Thanks for testing, reporting bugs, and starring the project if you like it.
 
