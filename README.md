@@ -1,3 +1,5 @@
+# **USE THIS ONE INSTEAD https://github.com/Jovatis/IndiCaps.rs**
+
 # IndiCaps
 
 **IndiCaps v1.1.0** — a Caps Lock indicator for Windows.
